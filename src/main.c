@@ -1814,7 +1814,7 @@ void login() {
     char username[128] = {0};
     char identity_token[128] = {0};
     char access_token[128] = {0};
-    if (db_auth_get_selected(username, 128, identity_token, 128)) {
+    if (db_auth_get_selected(username, sizeof(username), identity_token, sizeof(identity_token))) {
         printf("Contacting login server for username: %s\n", username);
         if (get_access_token(
             access_token, 128, username, identity_token))
@@ -2864,7 +2864,7 @@ int main(int argc, char **argv) {
                 hour = hour % 12;
                 hour = hour ? hour : 12;
                 snprintf(
-                    text_buffer, 1024,
+                    text_buffer, sizeof(text_buffer),
                     "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm %dfps",
                     chunked(s->x), chunked(s->z), s->x, s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z,
                     g->player_count, g->chunk_count,
@@ -2883,7 +2883,7 @@ int main(int argc, char **argv) {
                 }
             }
             if (g->typing) {
-                snprintf(text_buffer, 1024, "> %s", g->typing_buffer);
+                snprintf(text_buffer, sizeof(text_buffer), "> %s", g->typing_buffer);
                 render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
                 ty -= ts * 2;
             }

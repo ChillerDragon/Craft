@@ -57,7 +57,7 @@ Use the following commands in place of the ones described in the next section.
 Once you have the dependencies (see above), run the following commands in your
 terminal.
 
-    git clone https://github.com/fogleman/Craft.git
+    git clone https://github.com/ChillerDragon/Craft.git --recursive
     cd Craft
     mkdir build && cd build
     cmake ..

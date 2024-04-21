@@ -37,6 +37,9 @@ int get_db_enabled() {
 }
 
 int db_init(char *path) {
+    if (!path || !path[0]) {
+        return -1;
+    }
     if (!db_enabled) {
         return 0;
     }
@@ -146,7 +149,7 @@ int db_init(char *path) {
     rc = sqlite3_prepare_v2(db, set_key_query, -1, &set_key_stmt, NULL);
     if (rc) return rc;
     sqlite3_exec(db, "begin;", NULL, NULL, NULL);
-    db_worker_start();
+    db_worker_start(path);
     return 0;
 }
 

@@ -43,7 +43,7 @@ if(MINGW)
     set(LINK_LIBS_PLATFORM "ws2_32.lib")
 endif()
 
-target_compile_options(craft PRIVATE -Wall)
+target_compile_options(craft PRIVATE -Wall -Wno-format-truncation)
 
 add_definitions(-DGLEW_STATIC)
 add_subdirectory(deps/glfw EXCLUDE_FROM_ALL)

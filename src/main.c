@@ -2027,7 +2027,7 @@ void parse_command(const char *buffer, int forward) {
     int server_port = DEFAULT_PORT;
     char filename[MAX_PATH_LENGTH];
     int radius, count, xc, yc, zc;
-    if (sscanf(buffer, "/identity %128s %128s", username, token) == 2) {
+    if (sscanf(buffer, "/identity %127s %127s", username, token) == 2) {
         db_auth_set(username, token);
         add_message("Successfully imported identity token!");
         login();
@@ -2036,7 +2036,7 @@ void parse_command(const char *buffer, int forward) {
         db_auth_select_none();
         login();
     }
-    else if (sscanf(buffer, "/login %128s", username) == 1) {
+    else if (sscanf(buffer, "/login %127s", username) == 1) {
         if (db_auth_select(username)) {
             login();
         }

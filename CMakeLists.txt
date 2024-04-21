@@ -7,7 +7,6 @@ FILE(GLOB SOURCE_FILES src/*.c)
 add_executable(
     craft
     ${SOURCE_FILES}
-    deps/glew/src/glew.c
     deps/lodepng/lodepng.c
     deps/noise/noise.c
     deps/sqlite/sqlite3.c
@@ -15,9 +14,6 @@ add_executable(
 
 add_definitions(-std=c99 -O3)
 
-add_subdirectory(deps/glfw)
-include_directories(deps/glew/include)
-include_directories(deps/glfw/include)
 include_directories(deps/lodepng)
 include_directories(deps/noise)
 include_directories(deps/sqlite)
@@ -33,17 +29,32 @@ endif()
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
+set(LINK_LIBS_PLATFORM "")
+
 if(APPLE)
-    target_link_libraries(craft glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+    set(LINK_LIBS_PLATFORM "")
 endif()
 
 if(UNIX)
-    target_link_libraries(craft dl glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+    set(LINK_LIBS_PLATFORM "dl")
 endif()
 
 if(MINGW)
-    target_link_libraries(craft ws2_32.lib glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+    set(LINK_LIBS_PLATFORM "ws2_32.lib")
 endif()
+
+target_compile_options(craft PRIVATE -Wall)
+
+add_definitions(-DGLEW_STATIC)
+add_subdirectory(deps/glfw EXCLUDE_FROM_ALL)
+add_subdirectory(deps/glew EXCLUDE_FROM_ALL)
+
+target_link_libraries(craft
+    PRIVATE glfw
+    PRIVATE libglew_static
+    dl
+    ${GLFW_LIBRARIES}
+    ${CURL_LIBRARIES}
+    ${LINK_LIBS_PLATFORM}
+)
+

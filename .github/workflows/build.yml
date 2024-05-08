@@ -11,8 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [ubuntu-latest, macOS-latest, windows-latest, ubuntu-20.04]
-        os: [ubuntu-latest, macOS-latest, ubuntu-20.04]
+        os: [ubuntu-latest, macOS-latest, windows-latest, ubuntu-20.04]
         include:
         - os: ubuntu-latest
           cmake-init-env: CXXFLAGS=-Werror
@@ -21,9 +20,9 @@ jobs:
           cmake-init-env: CXXFLAGS=-Werror
         - os: macOS-latest
           cmake-init-env: CXXFLAGS=-Werror
-        # - os: windows-latest
-        #   cmake-args: -A x64
-        #   cmake-init-env: CXXFLAGS=/WX LDFLAGS=/WX
+        - os: windows-latest
+          cmake-args: -A x64
+          cmake-init-env: CXXFLAGS=/WX LDFLAGS=/WX
 
     steps:
     - uses: actions/checkout@v4

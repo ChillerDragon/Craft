@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.12...3.27.4)
 
 project(craft)
 
+option(CURL_FROM_SOURCE "build curl from source" OFF)
+
 FILE(GLOB SOURCE_FILES src/*.c)
 
 add_executable(
@@ -19,11 +21,52 @@ include_directories(deps/noise)
 include_directories(deps/sqlite)
 include_directories(deps/tinycthread)
 
-if(MINGW)
-    set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}
-        "C:/Program Files/CURL/lib" "C:/Program Files (x86)/CURL/lib")
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH}
-        "C:/Program Files/CURL/include" "C:/Program Files (x86)/CURL/include")
+if(CURL_FROM_SOURCE OR WIN32)
+    include_directories(deps/curl)
+
+    set(CURL_SOURCE_DIR ${CMAKE_SOURCE_DIR}/deps/curl)
+    set(CURL_BUILD_DIR ${CURL_SOURCE_DIR}/build)
+
+    if(EXISTS ${CURL_SOURCE_DIR})
+        if(NOT(EXISTS ${CURL_BUILD_DIR}))
+            file(MAKE_DIRECTORY ${CURL_BUILD_DIR})
+        endif()
+    endif()
+
+    add_definitions(-DCURL_STATICLIB)
+    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" ..
+      RESULT_VARIABLE result
+      WORKING_DIRECTORY ${CURL_BUILD_DIR}
+    )
+    if(result)
+        message(ERROR "CMake step for curl failed: ${result}")
+    else()
+        execute_process(COMMAND ${CMAKE_COMMAND} --build .
+          RESULT_VARIABLE result
+          WORKING_DIRECTORY ${CURL_BUILD_DIR}
+        )
+        if(result)
+            message(ERROR "Build step for curl failed: ${result}")
+        endif()
+    endif()
+
+
+    set(CURL_INCLUDE_DIR ${CURL_SOURCE_DIR}/include)
+
+    if(EXISTS ${CURL_BUILD_DIR}/lib/libcurl.so.4.8.0)
+        set(CURL_LIBRARY ${CURL_BUILD_DIR}/lib/libcurl.so.4.8.0)
+    elseif(EXISTS ${CURL_BUILD_DIR}/lib/Debug/libcurl-d_imp.lib)
+        SET(CURL_LIBRARY ${CURL_BUILD_DIR}/lib/Debug/libcurl-d_imp.lib)
+    elseif(EXISTS ${CURL_BUILD_DIR}/lib/Release/libcurl-d_imp.lib)
+        SET(CURL_LIBRARY ${CURL_BUILD_DIR}/lib/Release/libcurl-d_imp.lib)
+    else()
+        message(WARNING "did not find libcurl")
+    endif()
+
+    add_subdirectory(
+        ${CURL_SOURCE_DIR}
+        ${CURL_BUILD_DIR}
+        EXCLUDE_FROM_ALL)
 endif()
 
 find_package(CURL REQUIRED)
@@ -35,15 +78,15 @@ if(APPLE)
     set(LINK_LIBS_PLATFORM "")
 endif()
 
-if(UNIX)
-    set(LINK_LIBS_PLATFORM "dl")
+if(UNIX AND NOT APPLE)
+    set(LINK_LIBS_PLATFORM dl m)
 endif()
 
-if(MINGW)
+if(WIN32)
     set(LINK_LIBS_PLATFORM "ws2_32.lib")
 endif()
 
-target_compile_options(craft PRIVATE -Wall -Wno-format-truncation)
+# target_compile_options(craft PRIVATE -Wall -Wno-format-truncation)
 
 add_definitions(-DGLEW_STATIC)
 add_subdirectory(deps/glfw EXCLUDE_FROM_ALL)
@@ -52,7 +95,6 @@ add_subdirectory(deps/glew EXCLUDE_FROM_ALL)
 target_link_libraries(craft
     PRIVATE glfw
     PRIVATE libglew_static
-    dl
     ${GLFW_LIBRARIES}
     ${CURL_LIBRARIES}
     ${LINK_LIBS_PLATFORM}

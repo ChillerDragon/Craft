@@ -1,9 +1,9 @@
 [submodule "deps/glew"]
 	path = deps/glew
-	url = git@github.com:Perlmint/glew-cmake.git
+	url = https://github.com/Perlmint/glew-cmake.git
 [submodule "deps/glfw"]
 	path = deps/glfw
-	url = git@github.com:glfw/glfw.git
+	url = https://github.com/glfw/glfw.git
 [submodule "deps/curl"]
 	path = deps/curl
-	url = git@github.com:curl/curl.git
+	url = https://github.com/curl/curl.git

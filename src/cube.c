@@ -333,7 +333,6 @@ int _make_sphere(float *data, float r, int detail, float *a, float *b, float *c,
     data += n * 24;
     n = _make_sphere(data, r, detail - 1, ab, bc, ac, tab, tbc, tac);
     total += n;
-    data += n * 24;
     return total;
   }
 }

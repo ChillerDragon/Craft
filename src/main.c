@@ -2804,7 +2804,6 @@ int main(int argc, char **argv) {
       if (g->typing) {
         snprintf(text_buffer, sizeof(text_buffer), "> %s", g->typing_buffer);
         render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
-        ty -= ts * 2;
       }
       if (SHOW_PLAYER_NAMES) {
         if (player != me) {

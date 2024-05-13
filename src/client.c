@@ -1,6 +1,7 @@
 #ifdef _WIN32
-#include <windows.h>
 #include <winsock2.h>
+
+#include <windows.h>
 #define close closesocket
 #define sleep Sleep
 #else
@@ -8,11 +9,12 @@
 #include <unistd.h>
 #endif
 
-#include "client.h"
-#include "tinycthread.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "client.h"
+#include "tinycthread.h"
 
 #define QUEUE_SIZE 1048576
 #define RECV_SIZE 4096

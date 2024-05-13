@@ -1,3 +1,12 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <curl/curl.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
 #include "auth.h"
 #include "client.h"
 #include "config.h"
@@ -11,14 +20,6 @@
 #include "tinycthread.h"
 #include "util.h"
 #include "world.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <curl/curl.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 #define MAX_CHUNKS 8192
 #define MAX_PLAYERS 128

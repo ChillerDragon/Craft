@@ -765,7 +765,7 @@ int _gen_sign_buffer(GLfloat *data, float x, float y, float z, int face,
   float max_width = 64;
   float line_height = 1.25;
   char lines[1024];
-  int rows = wrap(text, max_width, lines, 1024);
+  int rows = wrap(text, max_width, lines, sizeof(lines));
   rows = MIN(rows, 5);
   int dx = glyph_dx[face];
   int dz = glyph_dz[face];

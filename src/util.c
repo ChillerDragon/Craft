@@ -192,8 +192,9 @@ int string_width(const char *input) {
 
 int wrap(const char *input, int max_width, char *output, int max_length) {
   *output = '\0';
-  char *text = malloc(sizeof(char) * (strlen(input) + 1));
-  strcpy(text, input);
+  const int text_size = sizeof(char) * (strlen(input) + 1);
+  char *text = malloc(text_size);
+  strncpy(text, input, text_size);
   int space_width = char_width(' ');
   int line_number = 0;
   char *key1, *key2;

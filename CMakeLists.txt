@@ -4,7 +4,27 @@ project(craft)
 
 option(CURL_FROM_SOURCE "build curl from source" OFF)
 
+include(CheckCCompilerFlag)
+
 FILE(GLOB CRAFT_SOURCE_FILES src/*.c)
+
+function(add_c_compiler_flag_if_supported FLAG)
+    string(REGEX REPLACE "[^A-Za-z0-9]" "_" CONFIG_VARIABLE "FLAG_SUPPORTED${FLAG}")
+    check_c_compiler_flag("${FLAG}" ${CONFIG_VARIABLE})
+    if(${CONFIG_VARIABLE})
+        add_definitions(${FLAG})
+    endif()
+endfunction()
+
+function(add_c_compiler_flag_required FLAG)
+    string(REGEX REPLACE "[^A-Za-z0-9]" "_" CONFIG_VARIABLE "FLAG_SUPPORTED${FLAG}")
+    check_c_compiler_flag("${FLAG}" ${CONFIG_VARIABLE})
+    if(${CONFIG_VARIABLE})
+        add_definitions(${FLAG})
+    else()
+        message(SEND_ERROR "Your compiler does not support ${FLAG}")
+    endif()
+endfunction()
 
 set(ALL_SOURCES
     ${CRAFT_SOURCE_FILES}
@@ -17,7 +37,10 @@ set(ALL_SOURCES
 add_executable(craft ${ALL_SOURCES})
 add_library(craftlib ${ALL_SOURCES})
 
-add_definitions(-std=c99 -O3)
+add_c_compiler_flag_required(-std=c99)
+add_c_compiler_flag_if_supported(-O3)
+add_c_compiler_flag_if_supported(-Wall)
+add_c_compiler_flag_if_supported(-Wno-format-truncation)
 
 include_directories(deps/lodepng)
 include_directories(deps/noise)
@@ -89,8 +112,6 @@ endif()
 if(WIN32)
     set(LINK_LIBS_PLATFORM "ws2_32.lib")
 endif()
-
-# target_compile_options(craft PRIVATE -Wall -Wno-format-truncation)
 
 add_definitions(-DGLEW_STATIC)
 add_subdirectory(deps/glfw EXCLUDE_FROM_ALL)

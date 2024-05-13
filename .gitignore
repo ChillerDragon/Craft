@@ -14,3 +14,13 @@ log.txt
 *.dll
 *.pyc
 build/
+build-tidy/
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake
+compile_commands.json
+libGLEWd.a
+libglewd.a
+cmake_uninstall.cmake
+libglfw3.a
+test_fs_support_CASE_sensitivity
+test_fs_support_case_sensitivity

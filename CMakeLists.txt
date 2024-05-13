@@ -140,8 +140,8 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 
 include(CTest)
 
-add_executable(TestCraft tests/test_matrix.c
-)
+FILE(GLOB TEST_SOURCE_FILES tests/*.c)
+add_executable(TestCraft ${TEST_SOURCE_FILES})
 target_link_libraries(TestCraft
     PRIVATE glfw
     PRIVATE libglew_static

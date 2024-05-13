@@ -37,7 +37,6 @@ char *load_file(const char *path) {
   rewind(file);
   if (errno) {
     fprintf(stderr, "rewind %s failed: %d %s\n", path, errno, strerror(errno));
-    exit(1);
   }
   if (length < 0) {
     fprintf(stderr, "failed to load file %s length is %d\n", path, length);

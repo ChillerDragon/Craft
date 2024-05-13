@@ -39,6 +39,10 @@ char *load_file(const char *path) {
     fprintf(stderr, "rewind %s failed: %d %s\n", path, errno, strerror(errno));
     exit(1);
   }
+  if(length < 0) {
+    fprintf(stderr, "failed to load file %s length is %d\n", path, length);
+    exit(1);
+  }
   char *data = calloc(length + 1, sizeof(char));
   fread(data, 1, length, file);
   fclose(file);

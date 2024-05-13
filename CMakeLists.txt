@@ -4,15 +4,18 @@ project(craft)
 
 option(CURL_FROM_SOURCE "build curl from source" OFF)
 
-FILE(GLOB SOURCE_FILES src/*.c)
+FILE(GLOB CRAFT_SOURCE_FILES src/*.c)
 
-add_executable(
-    craft
-    ${SOURCE_FILES}
+set(ALL_SOURCES
+    ${CRAFT_SOURCE_FILES}
     deps/lodepng/lodepng.c
     deps/noise/noise.c
     deps/sqlite/sqlite3.c
-    deps/tinycthread/tinycthread.c)
+    deps/tinycthread/tinycthread.c
+)
+
+add_executable(craft ${ALL_SOURCES})
+add_library(craftlib ${ALL_SOURCES})
 
 add_definitions(-std=c99 -O3)
 
@@ -20,6 +23,7 @@ include_directories(deps/lodepng)
 include_directories(deps/noise)
 include_directories(deps/sqlite)
 include_directories(deps/tinycthread)
+include_directories(src)
 
 if(CURL_FROM_SOURCE OR WIN32)
     include_directories(deps/curl)
@@ -92,15 +96,35 @@ add_definitions(-DGLEW_STATIC)
 add_subdirectory(deps/glfw EXCLUDE_FROM_ALL)
 add_subdirectory(deps/glew EXCLUDE_FROM_ALL)
 
-target_link_libraries(craft
-    PRIVATE glfw
-    PRIVATE libglew_static
+set(CRAFT_DEPS
     ${GLFW_LIBRARIES}
     ${CURL_LIBRARIES}
     ${LINK_LIBS_PLATFORM}
 )
 
+target_link_libraries(craft
+    PRIVATE glfw
+    PRIVATE libglew_static
+    ${CRAFT_DEPS}
+)
+target_link_libraries(craftlib
+    PRIVATE glfw
+    PRIVATE libglew_static
+    ${CRAFT_DEPS}
+)
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:${PROJECT_NAME}>/data)
+
+include(CTest)
+
+add_executable(TestCraft tests/test_matrix.c
+)
+target_link_libraries(TestCraft
+    PRIVATE glfw
+    PRIVATE libglew_static
+    craftlib)
+add_test(NAME TestCraft
+         COMMAND TestCraft)
 

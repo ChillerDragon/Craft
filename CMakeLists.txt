@@ -37,7 +37,7 @@ set(ALL_SOURCES
 add_executable(craft ${ALL_SOURCES})
 add_library(craftlib ${ALL_SOURCES})
 
-add_c_compiler_flag_required(-std=c99)
+add_c_compiler_flag_if_supported(-std=c99)
 add_c_compiler_flag_if_supported(-O3)
 add_c_compiler_flag_if_supported(-Wall)
 add_c_compiler_flag_if_supported(-Wno-format-truncation)

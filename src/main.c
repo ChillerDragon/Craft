@@ -629,6 +629,11 @@ int hit_test(int previous, float x, float y, float z, float rx, float ry,
   int p = chunked(x);
   int q = chunked(z);
   float vx, vy, vz;
+
+  *bx = 0; // TODO: remove this clang tidy false positive hack
+  *by = 0; // TODO: remove this clang tidy false positive hack
+  *bz = 0; // TODO: remove this clang tidy false positive hack
+
   get_sight_vector(rx, ry, &vx, &vy, &vz);
   for (int i = 0; i < g->chunk_count; i++) {
     Chunk *chunk = g->chunks + i;
@@ -2065,7 +2070,7 @@ void on_light() {
   int hx, hy, hz;
   int hw = hit_test(0, s->x, s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z, s->rx,
                     s->ry, &hx, &hy, &hz);
-  if (hy > 0 && hy < 256 && is_destructable(hw)) {
+  if (is_destructable(hw) && hy > 0 && hy < 256) {
     toggle_light(hx, hy, hz);
   }
 }
@@ -2075,7 +2080,7 @@ void on_left_click() {
   int hx, hy, hz;
   int hw = hit_test(0, s->x, s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z, s->rx,
                     s->ry, &hx, &hy, &hz);
-  if (hy > 0 && hy < 256 && is_destructable(hw)) {
+  if (is_destructable(hw) && hy > 0 && hy < 256) {
     set_block(hx, hy, hz, 0);
     record_block(hx, hy, hz, 0);
     if (is_plant(get_block(hx, hy + 1, hz))) {
@@ -2089,7 +2094,7 @@ void on_right_click() {
   int hx, hy, hz;
   int hw = hit_test(1, s->x, s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z, s->rx,
                     s->ry, &hx, &hy, &hz);
-  if (hy > 0 && hy < 256 && is_obstacle(hw)) {
+  if (is_obstacle(hw) && hy > 0 && hy < 256) {
     if (!player_intersects_block(2, s->x, s->y, s->z, hx, hy, hz)) {
       set_block(hx, hy, hz, items[g->item_index]);
       record_block(hx, hy, hz, items[g->item_index]);

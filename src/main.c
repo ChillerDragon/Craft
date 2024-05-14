@@ -1685,7 +1685,7 @@ void render_players(Attrib *attrib, Player *player) {
                 g->ortho, g->render_radius);
   glUseProgram(attrib->program);
   glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-  glUniform3f(attrib->camera, s->x, s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z);
+  glUniform3f(attrib->camera, s->x, s->y, s->z);
   glUniform1i(attrib->sampler, 0);
   glUniform1f(attrib->timer, time_of_day());
   for (int i = 0; i < g->player_count; i++) {

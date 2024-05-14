@@ -917,8 +917,8 @@ void occlusion(char neighbors[27], char lights[27], float shades[27],
 #define XZ_LO (CHUNK_SIZE)
 #define XZ_HI (CHUNK_SIZE * 2 + 1)
 #define Y_SIZE 258
-#define XYZ(x, y, z) ((y)*XZ_SIZE * XZ_SIZE + (x)*XZ_SIZE + (z))
-#define XZ(x, z) ((x)*XZ_SIZE + (z))
+#define XYZ(x, y, z) ((y) * XZ_SIZE * XZ_SIZE + (x) * XZ_SIZE + (z))
+#define XZ(x, z) ((x) * XZ_SIZE + (z))
 
 void light_fill(char *opaque, char *light, int x, int y, int z, int w,
                 int force) {

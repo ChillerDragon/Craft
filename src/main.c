@@ -1681,7 +1681,7 @@ void render_players(Attrib *attrib, Player *player) {
   State *s = &player->state;
   float matrix[16];
   set_matrix_3d(matrix, g->width, g->height, s->x,
-                s->y + PLAYER_CAMERA_HEIGHT_OFFSET, s->z, s->rx, s->ry, g->fov,
+                s->y, s->z, s->rx, s->ry, g->fov,
                 g->ortho, g->render_radius);
   glUseProgram(attrib->program);
   glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);

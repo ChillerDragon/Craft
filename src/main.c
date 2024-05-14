@@ -1680,9 +1680,8 @@ void render_sign(Attrib *attrib, Player *player) {
 void render_players(Attrib *attrib, Player *player) {
   State *s = &player->state;
   float matrix[16];
-  set_matrix_3d(matrix, g->width, g->height, s->x,
-                s->y, s->z, s->rx, s->ry, g->fov,
-                g->ortho, g->render_radius);
+  set_matrix_3d(matrix, g->width, g->height, s->x, s->y, s->z, s->rx, s->ry,
+                g->fov, g->ortho, g->render_radius);
   glUseProgram(attrib->program);
   glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
   glUniform3f(attrib->camera, s->x, s->y, s->z);

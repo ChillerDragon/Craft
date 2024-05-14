@@ -7,19 +7,16 @@
 #define STONE 3
 #define BRICK 4
 #define WOOD 5
-#define CEMENT 6
 #define DIRT 7
 #define PLANK 8
 #define SNOW 9
 #define GLASS 10
-#define COBBLE 11
-#define LIGHT_STONE 12
-#define DARK_STONE 13
+#define STONE_BRICK 11
+#define SMOOTH_STONE 12
 #define CHEST 14
 #define LEAVES 15
 #define CLOUD 16
 #define TALL_GRASS 17
-#define BLOCK_INVALID 31
 
 extern const int items[];
 extern const int item_count;

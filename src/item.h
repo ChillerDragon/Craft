@@ -5,7 +5,7 @@
 #define GRASS 1
 #define SAND 2
 #define STONE 3
-#define BRICK 4
+#define COBBLE 4
 #define WOOD 5
 #define DIRT 7
 #define PLANK 8
@@ -17,6 +17,7 @@
 #define LEAVES 15
 #define CLOUD 16
 #define TALL_GRASS 17
+#define BRICK 45
 
 extern const int items[];
 extern const int item_count;

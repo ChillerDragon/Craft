@@ -3,8 +3,8 @@
 
 const int items[] = {
     // items the user can build
-    GRASS, SAND,        STONE,        BRICK, WOOD,   DIRT,      PLANK,
-    GLASS, STONE_BRICK, SMOOTH_STONE, CHEST, LEAVES, TALL_GRASS};
+    GRASS, SAND,  STONE,       BRICK,        WOOD,  DIRT,   COBBLE,
+    PLANK, GLASS, STONE_BRICK, SMOOTH_STONE, CHEST, LEAVES, TALL_GRASS};
 
 const int item_count = sizeof(items) / sizeof(int);
 
@@ -14,7 +14,7 @@ const int blocks[256][6] = {
     {2, 2, 18, 3, 2, 2},      // 1 - grass
     {12, 12, 12, 12, 12, 12}, // 2 - sand
     {1, 1, 1, 1, 1, 1},       // 3 - stone
-    {3, 3, 3, 3, 3, 3},       // 4 - brick
+    {4, 4, 4, 4, 4, 4},       // 4 - cobble
     {36, 36, 52, 20, 36, 36}, // 5 - wood
     {31, 31, 31, 31, 31, 31}, // 6
     {3, 3, 3, 3, 3, 3},       // 7 - dirt
@@ -55,7 +55,7 @@ const int blocks[256][6] = {
     {0, 0, 0, 0, 0, 0},       // 42
     {0, 0, 0, 0, 0, 0},       // 43
     {0, 0, 0, 0, 0, 0},       // 44
-    {0, 0, 0, 0, 0, 0},       // 45
+    {3, 3, 3, 3, 3, 3},       // 45 - brick
     {0, 0, 0, 0, 0, 0},       // 46
     {0, 0, 0, 0, 0, 0},       // 47
     {0, 0, 0, 0, 0, 0},       // 48

@@ -117,7 +117,7 @@ class Handler(socketserver.BaseRequestHandler):
                 data = self.request.recv(BUFFER_SIZE)
                 if not data:
                     break
-                buf.extend(data.replace('\r\n', '\n'))
+                buf.extend(data.decode().replace('\r\n', '\n'))
                 while '\n' in buf:
                     index = buf.index('\n')
                     line = ''.join(buf[:index])
@@ -159,7 +159,7 @@ class Handler(socketserver.BaseRequestHandler):
                 except queue.Empty:
                     continue
                 data = ''.join(buf)
-                self.request.sendall(data)
+                self.request.sendall(data.encode())
             except Exception:
                 self.request.close()
                 raise

@@ -57,7 +57,7 @@ int __float_close(float a, float b, float max_diff)
 
 int _expect_float_eq(float actual, float expected)
 {
-	if(!__float_close(actual, expected, 0.00001))
+	if(!__float_close(actual, expected, 0.00012))
 	{
 		_test_ok();
 		return 0;

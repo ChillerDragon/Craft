@@ -22,7 +22,7 @@ function(add_c_compiler_flag_required FLAG)
     if(${CONFIG_VARIABLE})
         add_definitions(${FLAG})
     else()
-        message(SEND_ERROR "Your compiler does not support ${FLAG}")
+        message(FATAL_ERROR "Your compiler does not support ${FLAG}")
     endif()
 endfunction()
 
@@ -66,14 +66,14 @@ if(CURL_FROM_SOURCE OR WIN32)
       WORKING_DIRECTORY ${CURL_BUILD_DIR}
     )
     if(result)
-        message(ERROR "CMake step for curl failed: ${result}")
+        message(FATAL_ERROR "CMake step for curl failed: ${result}")
     else()
         execute_process(COMMAND ${CMAKE_COMMAND} --build .
           RESULT_VARIABLE result
           WORKING_DIRECTORY ${CURL_BUILD_DIR}
         )
         if(result)
-            message(ERROR "Build step for curl failed: ${result}")
+            message(FATAL_ERROR "Build step for curl failed: ${result}")
         endif()
     endif()
 
